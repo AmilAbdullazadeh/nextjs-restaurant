@@ -11,3 +11,8 @@ export default function handler(
 ) {
   res.status(200).json({ name: 'John Doe' })
 }
+
+
+// SELECT * FROM restaurants WEHERE slug
+// prisma.restaurants.findUnique({ slug })
+// Leq0CeI31jyZk936

@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Restaurants {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  slug        String   @unique
+  price       PRICE
+  main_image  String
+  images      String[]
+  items       Item[]
+  // location_id Int?
+  // location Location? @relation(fields: [location_id], references: [id])
+  // cuisinie_id Int?
+  // cuisinie Cuisinie? @relation(fields: [cuisinie_id], references: [id])
+  close_time  String
+  open_time   String
+  createdDate DateTime @default(now())
+  updateDate  DateTime @updatedAt
+}
+
+model Item {
+  id            Int         @id @default(autoincrement())
+  name          String
+  description   String
+  price         String
+  restaurant_id Int
+  restaurant    Restaurants @relation(fields: [restaurant_id], references: [id])
+  createdDate   DateTime    @default(now())
+  updateDate    DateTime    @updatedAt
+}
+
+model Location {
+  id          Int      @id @default(autoincrement())
+  name        String
+  createdDate DateTime @default(now())
+  updateDate  DateTime @updatedAt
+}
+
+model Cuisinie {
+  id          Int      @id @default(autoincrement())
+  name        String
+  createdDate DateTime @default(now())
+  updateDate  DateTime @updatedAt
+}
+
+enum PRICE {
+  CHEAP
+  REGULAR
+  EXPENSIVE
+}
