@@ -16,10 +16,10 @@ model Restaurants {
   main_image  String
   images      String[]
   items       Item[]
-  // location_id Int?
-  // location Location? @relation(fields: [location_id], references: [id])
-  // cuisinie_id Int?
-  // cuisinie Cuisinie? @relation(fields: [cuisinie_id], references: [id])
+  location_id Int
+  location Location @relation(fields: [location_id], references: [id])
+  cuisinie_id Int
+  cuisinie Cuisinie @relation(fields: [cuisinie_id], references: [id])
   close_time  String
   open_time   String
   createdDate DateTime @default(now())
@@ -40,6 +40,7 @@ model Item {
 model Location {
   id          Int      @id @default(autoincrement())
   name        String
+  restaurants Restaurants[]
   createdDate DateTime @default(now())
   updateDate  DateTime @updatedAt
 }
@@ -47,6 +48,7 @@ model Location {
 model Cuisinie {
   id          Int      @id @default(autoincrement())
   name        String
+  restaurants Restaurants[]
   createdDate DateTime @default(now())
   updateDate  DateTime @updatedAt
 }

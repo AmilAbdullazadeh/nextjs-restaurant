@@ -1,6 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from "next";
-import {PRICE, PrismaClient} from "@prisma/client";
+import {PrismaClient, PRICE} from "@prisma/client";
 
 const prisma = new PrismaClient();
 type Data = {
@@ -11,24 +10,24 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
-    await prisma.table.deleteMany();
-    await prisma.review.deleteMany();
+    // await prisma.table.deleteMany();
+    // await prisma.review.deleteMany();
     await prisma.item.deleteMany();
-    await prisma.restaurant.deleteMany();
+    await prisma.restaurants.deleteMany();
     await prisma.location.deleteMany();
-    await prisma.cuisine.deleteMany();
-    await prisma.user.deleteMany();
+    await prisma.cuisinie.deleteMany();
+    // await prisma.user.deleteMany();
 
     await prisma.location.createMany({
         data: [{name: "ottawa"}, {name: "toronto"}, {name: "niagara"}],
     });
 
-    await prisma.cuisine.createMany({
+    await prisma.cuisinie.createMany({
         data: [{name: "indian"}, {name: "italian"}, {name: "mexican"}],
     });
 
     const locations = await prisma.location.findMany();
-    const cuisines = await prisma.cuisine.findMany();
+    const cuisines = await prisma.cuisinie.findMany();
 
     const indianCuisineId =
         cuisines.find((cuisine) => cuisine.name === "indian")?.id || 1;
@@ -44,7 +43,7 @@ export default async function handler(
     const niagaraLocationId =
         locations.find((location) => location.name === "niagara")?.id || 1;
 
-    await prisma.restaurant.createMany({
+    await prisma.restaurants.createMany({
         data: [
             // INDIAN //
             {
@@ -517,7 +516,7 @@ export default async function handler(
         ],
     });
 
-    const restaurants = await prisma.restaurant.findMany();
+    const restaurants = await prisma.restaurants.findMany();
 
     const vivaanId =
         restaurants.find((restaurant) => restaurant.name === "Vivaan - fine Indian")
@@ -1324,4 +1323,3 @@ export default async function handler(
 
     res.status(200).json({name: "hello"});
 }
-@ts-ignore
