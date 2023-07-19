@@ -6,7 +6,6 @@ export default function Price(
     {price}: { price: PRICE }
 ) {
 
-    console.log(price)
 
     const renderPrice = () => {
 

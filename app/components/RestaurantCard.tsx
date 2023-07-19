@@ -14,11 +14,11 @@ export default function RestaurantCard(
                 <div className="p-1">
                     <h3 className="font-bold text-xl mb-2">{restaurant?.name}</h3>
                     <div className="flex items- start">
-                        {/*<Stars*/}
-                        {/*    reviews={restaurant?.reviews}*/}
-                        {/*/>*/}
+                        <Stars
+                            reviews={restaurant?.reviews}
+                        />
                         <p className="ml-2">
-                            5 reviews
+                            {restaurant?.reviews.length} reviews
                         </p>
                     </div>
                     <div className="flex text-reg font-light capitalize">

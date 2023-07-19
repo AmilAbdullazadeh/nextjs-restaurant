@@ -11,12 +11,12 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     // await prisma.table.deleteMany();
-    // await prisma.review.deleteMany();
+    await prisma.review.deleteMany();
     await prisma.item.deleteMany();
     await prisma.restaurants.deleteMany();
     await prisma.location.deleteMany();
     await prisma.cuisinie.deleteMany();
-    // await prisma.user.deleteMany();
+    await prisma.user.deleteMany();
 
     await prisma.location.createMany({
         data: [{name: "ottawa"}, {name: "toronto"}, {name: "niagara"}],
@@ -63,7 +63,7 @@ export default async function handler(
                 close_time: "21:30:00.000Z",
                 slug: "vivaan-fine-indian-cuisine-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             {
                 name: "RamaKrishna Indian",
@@ -82,7 +82,7 @@ export default async function handler(
                 close_time: "22:00:00.000Z",
                 slug: "ramakrishna-indian-restaurant-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             {
                 name: "Coconut Lagoon",
@@ -101,7 +101,7 @@ export default async function handler(
                 close_time: "22:00:00.000Z",
                 slug: "coconut-lagoon-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             {
                 name: "Last Train to Delhi",
@@ -120,7 +120,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "last-train-to-delhi-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             {
                 name: "Adrak Yorkville",
@@ -139,7 +139,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "adrak-yorkville-toronto",
                 location_id: torontoLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             {
                 name: "Curryish Tavern",
@@ -158,7 +158,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "curryish-tavern-toronto",
                 location_id: torontoLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             {
                 name: "Utsav",
@@ -175,7 +175,7 @@ export default async function handler(
                 close_time: "19:00:00.000Z",
                 slug: "utsav-toronto",
                 location_id: torontoLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             {
                 name: "Pukka",
@@ -194,7 +194,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "pukka-niagara",
                 location_id: niagaraLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             {
                 name: "Kamasutra Indian",
@@ -213,7 +213,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "kamasutra-indian-restaurant-and-wine-bar-niagara",
                 location_id: niagaraLocationId,
-                cuisine_id: indianCuisineId,
+                cuisinie_id: indianCuisineId,
             },
             // MEXICAN //
             {
@@ -233,7 +233,7 @@ export default async function handler(
                 close_time: "19:00:00.000Z",
                 slug: "eldorado-taco-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: mexicanCuisineId,
+                cuisinie_id: mexicanCuisineId,
             },
             {
                 name: "La Bartola",
@@ -254,7 +254,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "la-bartola-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: mexicanCuisineId,
+                cuisinie_id: mexicanCuisineId,
             },
             {
                 name: "El Catrin",
@@ -273,7 +273,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "el-catrin-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: mexicanCuisineId,
+                cuisinie_id: mexicanCuisineId,
             },
             {
                 name: "3 Mariachis",
@@ -292,7 +292,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "el-catrin-toronto",
                 location_id: torontoLocationId,
-                cuisine_id: mexicanCuisineId,
+                cuisinie_id: mexicanCuisineId,
             },
             {
                 name: "Casa Madera",
@@ -312,7 +312,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "casa-madera-toronto",
                 location_id: torontoLocationId,
-                cuisine_id: mexicanCuisineId,
+                cuisinie_id: mexicanCuisineId,
             },
             {
                 name: "Taco N Tequila",
@@ -332,7 +332,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "casa-madera-niagara",
                 location_id: niagaraLocationId,
-                cuisine_id: mexicanCuisineId,
+                cuisinie_id: mexicanCuisineId,
             },
             {
                 name: "El Jefe",
@@ -346,7 +346,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "el-jefe-niagara",
                 location_id: niagaraLocationId,
-                cuisine_id: mexicanCuisineId,
+                cuisinie_id: mexicanCuisineId,
             },
             // ITALIAN //
             {
@@ -368,7 +368,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "cano-restaurant-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: italianCuisineId,
+                cuisinie_id: italianCuisineId,
             },
             {
                 name: "Blu Ristorante",
@@ -389,7 +389,7 @@ export default async function handler(
                 close_time: "22:00:00.000Z",
                 slug: "blu-ristorante-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: italianCuisineId,
+                cuisinie_id: italianCuisineId,
             },
             {
                 name: "Stelvio",
@@ -409,7 +409,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "stelvio-ottawa",
                 location_id: ottawaLocationId,
-                cuisine_id: italianCuisineId,
+                cuisinie_id: italianCuisineId,
             },
             {
                 name: "Terroni Adelaide",
@@ -429,7 +429,7 @@ export default async function handler(
                 close_time: "18:00:00.000Z",
                 slug: "terroni-adelaide-niagara",
                 location_id: niagaraLocationId,
-                cuisine_id: italianCuisineId,
+                cuisinie_id: italianCuisineId,
             },
             {
                 name: "EST Restaurant",
@@ -451,7 +451,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "est-restaurant-niagara",
                 location_id: niagaraLocationId,
-                cuisine_id: italianCuisineId,
+                cuisinie_id: italianCuisineId,
             },
             {
                 name: "Sofia",
@@ -471,7 +471,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "sofia-toronto",
                 location_id: torontoLocationId,
-                cuisine_id: italianCuisineId,
+                cuisinie_id: italianCuisineId,
             },
             {
                 name: "Terroni Sud Forno",
@@ -491,7 +491,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "terroni-sud-forno-produzione-e-spaccio-toronto",
                 location_id: torontoLocationId,
-                cuisine_id: italianCuisineId,
+                cuisinie_id: italianCuisineId,
             },
             {
                 name: "il Padrino",
@@ -511,7 +511,7 @@ export default async function handler(
                 close_time: "21:00:00.000Z",
                 slug: "il-padrino-toronto",
                 location_id: torontoLocationId,
-                cuisine_id: italianCuisineId,
+                cuisinie_id: italianCuisineId,
             },
         ],
     });
@@ -1304,22 +1304,22 @@ export default async function handler(
         ],
     });
 
-    await prisma.table.createMany({
-        data: [
-            {
-                restaurant_id: vivaanId,
-                seats: 4,
-            },
-            {
-                restaurant_id: vivaanId,
-                seats: 4,
-            },
-            {
-                restaurant_id: vivaanId,
-                seats: 2,
-            },
-        ],
-    });
+    // await prisma.table.createMany({
+    //     data: [
+    //         {
+    //             restaurant_id: vivaanId,
+    //             seats: 4,
+    //         },
+    //         {
+    //             restaurant_id: vivaanId,
+    //             seats: 4,
+    //         },
+    //         {
+    //             restaurant_id: vivaanId,
+    //             seats: 2,
+    //         },
+    //     ],
+    // });
 
     res.status(200).json({name: "hello"});
 }
