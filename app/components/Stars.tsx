@@ -1,15 +1,21 @@
 import React from "react";
 import Image from "next/image";
 import {calculateReviewAvarage} from "../utils/calculateReviewAvarage";
+import star from "../assets/icons/star.svg";
+import halfStar  from "../assets/icons/star-half-alt.svg";
+import emptyStar from "../assets/icons/empty_star.svg";
 
-export default function Stars({reviews}: any) {
+export default function Stars({reviews, rating}: { reviews: any[], rating?: number; }) {
 
-    const rating = calculateReviewAvarage(reviews)
+
+    const r = rating || calculateReviewAvarage(reviews)
 
     const renderStars = (rating: number) => {
+        console.log('rating', rating)
+
         // create the strings
         const fullStar = "★";
-        const halfStar = "★☆";
+        const halfStar =  "☆";
         const emptyStar = "☆";
 
         // determine the full, half, and empty stars
@@ -32,6 +38,6 @@ export default function Stars({reviews}: any) {
         );
     }
 
-    if (reviews.length === 0) return <div className="flex items-center">No reviews</div>;
-    return <div className="flex items-center">{renderStars(+rating)}</div>;
+    if (reviews.length === 0 && !r) return <div className="flex items-center">No reviews</div>;
+    return <div className="flex items-center">{renderStars(+r)}</div>;
 }

@@ -37,7 +37,8 @@ const fetchRestaurantDetails = async (slug: string): Promise<IRestaurantDetails>
     });
 
     if (!restaurantDetails) {
-        throw new Error();
+        // throw new Error("Error fetching restaurant details");
+        notFound();
     }
 
     return restaurantDetails;

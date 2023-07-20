@@ -1,10 +1,10 @@
-import React from "react";
+"use client"
 
 export default function Loading() {
     return (
         <main>
             <div className="h-96 overflow-hidden animate-pulse bg-slate-200">
-                <div className={`bg-center h-full`} />
+                <div className={`bg-center h-full`}/>
             </div>
             <div className="flex  m-auto w-2/3 justify-between items-start 0 -mt-9">
                 <div className="bg-white w-[70%] rounded p-3 shadow">
@@ -21,11 +21,11 @@ export default function Loading() {
                             <p className="text-reg ml-3"></p>
                         </div>
                         <div>
-                            <p className="text-reg ml-1 ml-4"> </p>
+                            <p className="text-reg ml-1 ml-4"></p>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-    );
+    )
 }
