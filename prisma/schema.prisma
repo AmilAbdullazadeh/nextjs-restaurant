@@ -58,7 +58,7 @@ model User {
   id          Int      @id @default(autoincrement())
   first_name  String
   last_name   String
-  email       String
+  email       String   @unique
   city        String
   password    String
   phone       String
