@@ -11,7 +11,6 @@ export default function Stars({reviews, rating}: { reviews: any[], rating?: numb
     const r = rating || calculateReviewAvarage(reviews)
 
     const renderStars = (rating: number) => {
-        console.log('rating', rating)
 
         // create the strings
         const fullStar = "★";
