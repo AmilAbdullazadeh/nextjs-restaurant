@@ -11,6 +11,8 @@ export default async function handler(
     res: NextApiResponse
 ) {
 
+
+
     const {
         password = 'Test123@',
         email = 'test1@gmail.com'
