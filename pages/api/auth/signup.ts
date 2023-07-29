@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from "next";
 import {PrismaClient, PRICE, User} from "@prisma/client";
 import validator from 'validator';
 import bcrypt from 'bcrypt';
-import * as jose from 'jose'
+import * as jose from 'jose';
 
 const prisma = new PrismaClient();
 
@@ -17,7 +17,7 @@ export default async function handler(
         phone = '+994550000000',
         city = 'Toronto',
         password = 'Test123@',
-        email = 'test7@gmail.com'
+        email = 'test2@gmail.com'
     } = req.body
 
     const errors: string[] = []
