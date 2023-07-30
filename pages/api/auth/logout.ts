@@ -7,9 +7,4 @@ export default async function handler(
     res: NextApiResponse
 ) {
 
-    // @ts-ignore
-    const cookies = new Cookies(req, res);
-    cookies.re('token');
-
-    res.status(200).json({message: 'Logged out'});
 }

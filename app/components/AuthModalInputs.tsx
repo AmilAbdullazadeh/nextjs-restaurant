@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import Input from './Input';
 import {useDispatch, useSelector} from "react-redux";
-import {loginUser, registerUser} from "../store/auth/authSlice";
+import {loginUser} from "../store/auth/authSlice";
 
 // @ts-ignore
 export default function AuthModalInputs({isSignIn}) {
@@ -12,13 +12,8 @@ export default function AuthModalInputs({isSignIn}) {
     const authState = useSelector(state => state.auth);
 
     const onSubmit = (data: any) => {
-        if (isSignIn) {
-            // @ts-ignore
-            dispatch(loginUser(data));
-        } else {
-            // @ts-ignore
-            dispatch(registerUser(data));
-        }
+        // @ts-ignore
+        dispatch(loginUser(data));
     };
 
     return (

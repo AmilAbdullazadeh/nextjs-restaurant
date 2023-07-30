@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {createAsyncThunkRequest} from '../../hooks/useApi';
-import {login, register, logout} from './authAPI';
+import {login} from './authAPI';
 import {User} from "@prisma/client";
 
 interface AuthState {
@@ -22,10 +22,6 @@ const initialState: AuthState = {
 };
 
 export const loginUser = createAsyncThunkRequest<{ email: string; password: string }, User>('auth/api/signin', login);
-// @ts-ignore
-export const registerUser = createAsyncThunkRequest<User, User>('auth/api/signup', register);
-export const logoutUser = createAsyncThunkRequest<void, void>('auth/api/logout.ts', logout);
-
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -43,28 +39,6 @@ export const authSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            .addCase(registerUser.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(registerUser.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.user = action.payload;
-            })
-            .addCase(registerUser.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            })
-            .addCase(logoutUser.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(logoutUser.fulfilled, (state) => {
-                state.status = 'succeeded';
-                state.user = null;
-            })
-            .addCase(logoutUser.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            });
     },
 });
 
