@@ -69,6 +69,7 @@ export default function AuthModal({isSignin = false}: { isSignin?: boolean }) {
             </Button>
             <Modal title={renderContent("Sign in", "Sign up")} open={isModalOpen} onOk={handleOk}
                    onCancel={handleCancel}>
+                {/*@ts-ignore*/}
                 <AuthModalInputs isSignIn={isSignin} inputs={inputs} handleChangeInput={handleChangeInput}/>
             </Modal>
         </div>

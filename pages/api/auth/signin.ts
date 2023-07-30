@@ -2,7 +2,9 @@ import type {NextApiRequest, NextApiResponse} from "next";
 import {PrismaClient, PRICE, User} from "@prisma/client";
 import validator from 'validator';
 import bcrypt from 'bcrypt';
-import * as jose from 'jose'
+import * as jose from 'jose';
+import jwt from "jsonwebtoken";
+import Cookies from 'next-cookies';
 
 const prisma = new PrismaClient();
 
@@ -49,14 +51,27 @@ export default async function handler(
     })
 
     if (!userData) {
-        return res.status(400).json({errorMessage: "Password or email is wrong"});
+        return res.status(400).json({errorMessage: "User date not found"});
     }
 
     const isMatch: boolean = await bcrypt.compare(password, userData.password)
 
     if (!isMatch) {
-        return res.status(400).json({errorMessage: "Password or email is wrong"});
+        return res.status(400).json({errorMessage: "Password is incorrect"});
     }
+
+    // @ts-ignore
+    const token = jwt.sign({ email: userData.email }, 'secret', { expiresIn: '1h' });
+
+    // @ts-ignore
+    const cookies = new Cookies(req, res);
+    cookies.set('token', token, {
+        httpOnly: true,
+        sameSite: 'lax', // CSRF protection
+        secure: process.env.NODE_ENV === 'production', // Only send cookies over HTTPS in production
+        maxAge: 60 * 60, // Expires after 1 hour
+        path: '/',
+    });
 
     res.status(200).json({data: userData});
 

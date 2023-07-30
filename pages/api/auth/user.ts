@@ -1,7 +1,9 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {PrismaClient, User} from "@prisma/client";
 import validator from 'validator';
-import * as jose from 'jose'
+import * as jose from 'jose';
+import jwt from "jsonwebtoken";
+import Cookies from 'cookie';
 
 const prisma = new PrismaClient();
 

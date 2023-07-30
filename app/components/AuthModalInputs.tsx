@@ -1,102 +1,94 @@
-import React from "react";
-import {IInputs} from "./AuthModal";
+import React from 'react';
+import {useForm} from 'react-hook-form';
+import Input from './Input';
+import {useDispatch, useSelector} from "react-redux";
+import {loginUser, registerUser} from "../store/auth/authSlice";
 
-export default function AuthModalInputs({inputs, handleChangeInput, isSignIn}: {
-    isSignIn: boolean,
-    inputs: IInputs,
-    handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void
-}) {
+// @ts-ignore
+export default function AuthModalInputs({isSignIn}) {
+    const {register, handleSubmit, formState: {errors}} = useForm();
+    const dispatch = useDispatch();
+    // @ts-ignore
+    const authState = useSelector(state => state.auth);
+
+    const onSubmit = (data: any) => {
+        if (isSignIn) {
+            // @ts-ignore
+            dispatch(loginUser(data));
+        } else {
+            // @ts-ignore
+            dispatch(registerUser(data));
+        }
+    };
+
     return (
-        <div>
-            {
-                isSignIn ?
-                    (
-                        <>
-                            <div className="my-3 flex justify-between text-sm">
-                                <input
-                                    type="text"
-                                    className="border rounded p-2 py-3 w-full"
-                                    placeholder="Email"
-                                    value={inputs.email}
-                                    onChange={handleChangeInput}
-                                    name="email"
-                                />
-                            </div>
-                            <div className="my-3 flex justify-between text-sm">
-                                <input
-                                    type="password"
-                                    className="border rounded p-2 py-3 w-full"
-                                    placeholder="Password"
-                                    value={inputs.password}
-                                    onChange={handleChangeInput}
-                                    name="password"
-                                />
-                            </div>
-                        </>
-                    )
-                    :
-                    (
-                        <>
-                            <div className="my-3 flex justify-between text-sm">
-                                <input
-                                    type="text"
-                                    className="border rounded p-2 py-3 w-[49%]"
-                                    placeholder="First Name"
-                                    value={inputs.firstName}
-                                    onChange={handleChangeInput}
-                                    name="firstName"
-                                />
-                                <input
-                                    type="text"
-                                    className="border rounded p-2 py-3 w-[49%]"
-                                    placeholder="Last Name"
-                                    value={inputs.lastName}
-                                    onChange={handleChangeInput}
-                                    name="lastName"
-                                />
-                            </div>
-                            <div className="my-3 flex justify-between text-sm">
-                                <input
-                                    type="text"
-                                    className="border rounded p-2 py-3 w-full"
-                                    placeholder="Email"
-                                    value={inputs.email}
-                                    onChange={handleChangeInput}
-                                    name="email"
-                                />
-                            </div>
-                            <div className="my-3 flex justify-between text-sm">
-                                <input
-                                    type="text"
-                                    className="border rounded p-2 py-3 w-[49%]"
-                                    placeholder="Phone"
-                                    value={inputs.phone}
-                                    onChange={handleChangeInput}
-                                    name="phone"
-                                />
-                                <input
-                                    type="text"
-                                    className="border rounded p-2 py-3 w-[49%]"
-                                    placeholder="City"
-                                    value={inputs.city}
-                                    onChange={handleChangeInput}
-                                    name="city"
-                                />
-                            </div>
-                            <div className="my-3 flex justify-between text-sm">
-                                <input
-                                    type="password"
-                                    className="border rounded p-2 py-3 w-full"
-                                    placeholder="Password"
-                                    value={inputs.password}
-                                    onChange={handleChangeInput}
-                                    name="password"
-                                />
-                            </div>
-                        </>
-
-                    )
-            }
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            {isSignIn ? (
+                <>
+                    <Input
+                        register={register}
+                        name="email"
+                        type="text"
+                        placeholder="Email"
+                        error={errors.email}
+                    />
+                    <Input
+                        register={register}
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        error={errors.password}
+                    />
+                </>
+            ) : (
+                <>
+                    <Input
+                        register={register}
+                        name="firstName"
+                        type="text"
+                        placeholder="First Name"
+                        error={errors.firstName}
+                    />
+                    <Input
+                        register={register}
+                        name="lastName"
+                        type="text"
+                        placeholder="Last Name"
+                        error={errors.lastName}
+                    />
+                    <Input
+                        register={register}
+                        name="email"
+                        type="text"
+                        placeholder="Email"
+                        error={errors.email}
+                    />
+                    <Input
+                        register={register}
+                        name="phone"
+                        type="text"
+                        placeholder="Phone"
+                        error={errors.phone}
+                    />
+                    <Input
+                        register={register}
+                        name="city"
+                        type="text"
+                        placeholder="City"
+                        error={errors.city}
+                    />
+                    <Input
+                        register={register}
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        error={errors.password}
+                    />
+                </>
+            )}
+            <input type="submit"/>
+            {authState.status === 'loading' && <p>Loading...</p>}
+            {authState.status === 'failed' && <p>Error: {authState.error}</p>}
+        </form>
     );
 }
