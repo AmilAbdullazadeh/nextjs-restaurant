@@ -16,7 +16,7 @@ export interface IRestaurant {
     reviews: Review[]
 }
 
-const fetchRestaurants = async (): Promise<IRestaurant[]> => {
+export const fetchRestaurants = async (): Promise<IRestaurant[]> => {
     const restaurants = await prisma.restaurants.findMany(
         {
             select: {
