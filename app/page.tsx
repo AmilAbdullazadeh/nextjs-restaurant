@@ -47,7 +47,7 @@ export default async function Home() {
     return (
         <main>
             <Header/>
-            <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
+            <div className="home-container py-3 px-36 mt-10 flex flex-wrap justify-center">
                 {
                     restaurants.map((restaurant:  IRestaurant) => (
                         <RestaurantCard key={restaurant.id} restaurant={restaurant}/>

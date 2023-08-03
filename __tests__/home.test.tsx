@@ -66,7 +66,7 @@ describe('Home Component', () => {
 
     it('should handle error case', async () => {
         server.use(
-            rest.get('/api/restaurantxs', (req, res, ctx) => {
+            rest.get('/api/restaurants', (req, res, ctx) => {
                 return res(ctx.status(500))
             })
         );
