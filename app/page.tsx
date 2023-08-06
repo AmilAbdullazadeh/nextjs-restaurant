@@ -36,7 +36,15 @@ export const fetchRestaurants = async (): Promise<IRestaurant[]> => {
         throw new Error();
     }
 
-    return restaurants;
+    // return restaurants
+
+    return {
+        // @ts-ignore
+        props: {
+            restaurants
+        },
+        revalidate: 1, // 1 sec
+    }
 }
 
 
@@ -47,7 +55,7 @@ export default async function Home() {
     return (
         <main>
             <Header/>
-            <div className="home-container py-3 px-36 mt-10 flex flex-wrap justify-center">
+            <div data-test-id="restaurant-card" className="home-container py-3 px-36 mt-10 flex flex-wrap justify-center">
                 {
                     restaurants.map((restaurant:  IRestaurant) => (
                         <RestaurantCard key={restaurant.id} restaurant={restaurant}/>

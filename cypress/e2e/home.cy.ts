@@ -1,42 +1,5 @@
-// // cypress/integration/home-page.spec.js
-//
-// // @ts-ignore
-// describe('Home Page', () => {
-//     const sampleRestaurants = [
-//         {
-//             id: 1,
-//             name: 'Restaurant One',
-//             main_image: 'image1.jpg',
-//             cuisinie: 'Italian',
-//             location: 'New York',
-//             price: 'MEDIUM',
-//             slug: 'restaurant-one',
-//             reviews: []
-//         },
-//     ];
-//
-//     beforeEach(() => {
-//         cy.intercept('GET', '/api/restaurants', sampleRestaurants).as('getRestaurants');
-//         cy.visit('/');
-//         cy.wait('@getRestaurants');
-//     });
-//
-//     it('Should render the welcome message', () => {
-//         cy.contains('Welcome to the Home page').should('be.visible');
-//     });
-//
-//     it('Should render the Header component', () => {
-//       cy.get('.header').should('be.visible');
-//     });
-//
-//     it('Should render the Restaurant cards', () => {
-//       cy.get('.home-container .restaurant-card').should('have.length', sampleRestaurants.length);
-//       cy.get('.home-container .restaurant-card').first().should('contain', 'Restaurant One');
-//     });
-// });
-
-
 import HomePage from '../pages/homePage';
+import {IRestaurant} from "../../app/page";
 
 describe('Home Page', () => {
     const homePage = new HomePage();
@@ -90,4 +53,174 @@ describe('Home Page', () => {
         cy.url().should('include', '/restaurant/');
     });
 
+});
+
+
+describe('Homepage', () => {
+    before(() => {
+        // @ts-ignore
+        cy.visit()
+        // cy.visitHome();
+        // cy.checkRestaurantCard()
+    });
+
+    it('should load the homepage correctly', () => {
+        cy.get('[data-test-id="header"]').should('be.visible');
+        cy.get('[data-test-id="search-bar"]').should('be.visible');
+    });
+
+    it('should load all restaurant cards', () => {
+        // @ts-ignore
+        const expectedRestaurants: any[] = getExpectedRestaurants();
+        expectedRestaurants.forEach((restaurant) => {
+            cy.getRestaurantCard(restaurant);
+        });
+    });
+
+    it('should navigate to the correct restaurant page when a card is clicked', () => {
+        // @ts-ignore
+        const restaurant: IRestaurant = getExpectedRestaurants()[0];
+        cy.get(`[data-test-id="restaurant-${restaurant.id}"]`).click();
+        cy.url().should('include', `/restaurant/${restaurant.slug}`);
+    });
+});
+
+// for cache test
+describe('Homepage with ISR', () => {
+    it('loads the initial data correctly', () => {
+        cy.visit('/');
+
+        cy.get('[data-test-id="restaurant-1"]').should('be.visible');
+        cy.get('[data-test-id="restaurant-2"]').should('be.visible');
+    });
+
+    it('updates the data after revalidation', () => {
+        cy.wait(60000);
+
+        cy.reload();
+
+        cy.get('[data-test-id="restaurant-1"]').should('be.visible');
+        cy.get('[data-test-id="new-restaurant"]').should('be.visible'); // error
+    });
+});
+
+
+// revalidation test for home page
+describe('ISR Revalidation', () => {
+    it('should revalidate data after a period of time', () => {
+        cy.visit('/');
+
+        cy.intercept('GET', '/api/restaurants', {
+            body: [
+                {
+                    id: 1,
+                    name: 'First Restaurant',
+                    main_image: 'http://example.com/image1.jpg',
+                    cuisinie: 'Italian',
+                    location: 'New York',
+                    price: 'Regular',
+                    slug: 'first-restaurant',
+                    reviews: [],
+                }
+            ],
+            delayMs: 500,
+            headers: {
+                'cache-control': 's-maxage=1, stale-while-revalidate'
+            },
+        }).as('getRestaurants');
+
+        cy.wait('@getRestaurants'); // => inital api call wait
+
+        cy.get('[data-testid="restaurant-card"]').should('have.length', 1);
+        cy.get('[data-testid="restaurant-card"]').first().should('contain.text', 'First Restaurant');
+
+        cy.intercept('GET', '/api/restaurants', {
+            body: [
+                {
+                    id: 2,
+                    name: 'Second Restaurant',
+                    main_image: 'http://example.com/image2.jpg',
+                    cuisinie: 'French',
+                    location: 'Paris',
+                    price: 'Expensive',
+                    slug: 'second-restaurant',
+                    reviews: [],
+                }
+            ],
+            delayMs: 500,
+            headers: {
+                'cache-control': 's-maxage=1, stale-while-revalidate'
+            },
+        }).as('getUpdatedRestaurants');
+
+        cy.wait(1500);
+
+        cy.reload();
+
+        cy.wait('@getUpdatedRestaurants');
+
+        cy.get('[data-testid="restaurant-card"]').should('have.length', 1);
+        cy.get('[data-testid="restaurant-card"]').first().should('contain.text', 'Second Restaurant');
+    });
+});
+
+//  cache clearing to test
+describe('ISR Cache Clearing for Home page and components', () => {
+    let callCount = 0;
+
+    beforeEach(() => {
+        callCount = 0;
+
+        cy.intercept('GET', '/api/restaurants', (req) => {
+            callCount += 1;
+
+            if (callCount === 1) {
+                req.reply({
+                    body: [
+                        {
+                            id: 1,
+                            name: 'First Restaurant',
+                            main_image: 'http://example.com/image1.jpg',
+                            cuisinie: 'Italian',
+                            location: 'New York',
+                            price: 'Regular',
+                            slug: 'first-restaurant',
+                            reviews: [],
+                        }
+                    ],
+                    headers: {
+                        'cache-control': 's-maxage=1, stale-while-revalidate'
+                    }
+                });
+            } else {
+                req.reply({
+                    body: [
+                        {
+                            id: 2,
+                            name: 'Second Restaurant',
+                            main_image: 'http://example.com/image2.jpg',
+                            cuisinie: 'French',
+                            location: 'Paris',
+                            price: 'Expensive',
+                            slug: 'second-restaurant',
+                            reviews: [],
+                        }
+                    ],
+                    headers: {
+                        'cache-control': 's-maxage=1, stale-while-revalidate'
+                    }
+                });
+            }
+        }).as('getRestaurants');
+    });
+
+    it('should render different data after revalidation', () => {
+        cy.visit('/');
+        cy.wait('@getRestaurants');
+        cy.get('[data-testid="restaurant-card"]').first().should('contain.text', 'First Restaurant');
+
+        cy.visit('/');
+        cy.wait('@getRestaurants');
+        cy.get('[data-testid="restaurant-card"]').first().should('contain.text', 'Second Restaurant');
+    });
 });
