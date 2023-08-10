@@ -3,24 +3,15 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 14, 16, 18 ]
+    name: Node ${{ matrix.node }} sample
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Run a script
-        run: echo "Hello, world!"
-
-      - name: Get code
-        uses: actions/checkout@v3
-
-      - name: Install NodeJS
-        uses: actions/setuo-node@v3
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
-          # Repository name with owner. For example, actions/checkout
-          # Default: ${{ github.repository }}
-          repository: ''
-      - name: Install dep
-        run: npm ci
-      - name: Run tests
-        run: npm test
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm test
