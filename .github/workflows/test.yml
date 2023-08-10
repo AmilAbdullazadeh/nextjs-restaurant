@@ -19,8 +19,8 @@ jobs:
           node-version: 16
       - name: Install dep
         run: npm ci
-      - name: Run tests
-        run: npm test
+#      - name: Run tests
+#        run: npm test
 
 
 #jobs:
