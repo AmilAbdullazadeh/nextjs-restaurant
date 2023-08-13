@@ -1,7 +1,6 @@
 name: Deployment Activity
 
-on: push
-#on: [push, workflow_dispatch]
+on: [push, workflow_dispatch]
 #on:
 #  push:
 #    branches:
