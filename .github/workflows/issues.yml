@@ -12,10 +12,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log Issue Title
-        run: echo "Issue title is: ${{ github.event.issue.title }}"
+        run: echo "Issue title is"
 
       - name: Log Issue Body
-        run: echo "Issue body is: ${{ github.event.issue.body }}"
+        run: echo "Issue body is"
 
       - name: Check if labeled with 'bug'
         if: contains(github.event.issue.labels.*.name, 'bug')

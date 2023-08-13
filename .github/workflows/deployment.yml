@@ -1,6 +1,7 @@
 name: Deployment Activity
 
 on: [push, workflow_dispatch]
+
 #on:
 #  push:
 #    branches:
@@ -8,6 +9,9 @@ on: [push, workflow_dispatch]
 #    paths:
 #      - 'src/**'
 #  workflow_dispatch:
+#  schedule:
+#    - cron: "0 5 */30 * *"
+
 #on:
 #  push:
 #  pull_request:
