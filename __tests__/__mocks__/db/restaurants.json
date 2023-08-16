@@ -1,0 +1,12 @@
+[
+  {
+    id: 1,
+    name: "Restaurant Name",
+    main_image: "image.jpg",
+    cuisinie: "Italian",
+    location: "City",
+    price: "LOW",
+    slug: "restaurant-name",
+    reviews: []
+  }
+]

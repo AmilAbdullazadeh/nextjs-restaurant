@@ -1,0 +1,29 @@
+name: Issue Activity
+
+on:
+  issues:
+    types: [opened, reopened, labeled]
+
+jobs:
+  handleIssue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log Issue Title
+        run: echo "Issue title is ${{ github.event.issue.title }}"
+
+      - name: Log Issue Body
+        run: echo "Issue body is ${{ github.event.issue.body }}"
+
+      - name: Check if labeled with 'bug'
+        if: contains(github.event.issue.labels.*.name, 'bug')
+        run: echo "This is a bug!"
+
+      - name: Run some script if the issue is reopened
+        if: github.event.action == 'reopened'
+        run: echo "Issue was reopened."
+
+      - name: Log the actor
+        run: echo "This action was triggered by ${{ github.actor }}"
