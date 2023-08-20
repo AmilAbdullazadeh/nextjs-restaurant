@@ -2,6 +2,11 @@ name: Deployment Activity
 
 on:
   push:
+    branches:
+      - main
+      - dev
+    paths:
+      - 'src/**'
   pull_request:
     types: [opened, closed]
   workflow_dispatch:
@@ -12,12 +17,15 @@ on:
 #  push:
 #    branches:
 #      - main
-#    paths:
+#    paths
 #      - 'src/**'
 #  workflow_dispatch:
 #  schedule:
 #    - cron: "0 5 */30 * *"
 
+env:
+  cache-name: cache-node-modules
+  DB_HOST: ${{ secrets.DB_HOST }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -82,9 +90,28 @@ jobs:
         with:
           name: dist-files
 
+  env:
+    DB_HOST: ${{ secrets.DB_HOST }}
+    PORT: ${{ secrets.PROD_PORT }}
+
   test:
     runs-on: ubuntu-latest
+#    container:
+#      image: node:16
+#      env:
+#          DB_HOST: ${{ secrets.DB_HOST }}
+#          PORT: ${{ secrets.PROD_PORT }}
     needs: build  # This ensures that the test job runs only after build completes
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      PORT: ${{ secrets.PROD_PORT }}
+      POSTGRES_PASSWORD: example
+    services:
+      db:
+        image: postgres
+        restart: always
+        environment:
+          POSTGRES_PASSWORD: example
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -106,6 +133,10 @@ jobs:
 
       - name: Run tests
         run: echo "Testing the application..."
+
+      - name: Output secrets
+        run: echo ${{ secrets.DB_HOST }}
+
 
   deploy:
     runs-on: ubuntu-latest
