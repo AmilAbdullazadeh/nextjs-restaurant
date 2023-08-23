@@ -33,6 +33,13 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Build Docker image
+        run: docker build . --tag postgres:latest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
       - name: Run a script
         run: echo "Hello, world!"
 
